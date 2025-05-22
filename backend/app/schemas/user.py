@@ -2,7 +2,7 @@ import re
 from typing import Any, Dict
 from pydantic import BaseModel, Field, field_validator, ConfigDict
 
-class UserCreate(BaseModel):
+class UserSchema(BaseModel):
     """
     Schema for user creation requests.
     
@@ -87,6 +87,33 @@ class UserResponse(BaseModel):
                 "id": 1,
                 "username": "johndoe",
                 "is_active": True
+            }
+        }
+    )
+    
+class UserPublic(BaseModel):
+    """
+    Public schema for user data.
+    
+    Attributes:
+        id: Unique identifier for the user
+        username: User's unique identifier
+        is_active: Indicates if the user is active
+        is_admin: Indicates if the user is an admin
+    """
+    id: int
+    username: str
+    is_active: bool
+    is_admin: bool = Field(default=False)
+
+    model_config = ConfigDict(
+        from_attributes=True,
+        json_schema_extra={
+            "example": {
+                "id": 1,
+                "username": "johndoe",
+                "is_active": True,
+                "is_admin": False
             }
         }
     )

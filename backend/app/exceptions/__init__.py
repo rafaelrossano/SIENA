@@ -9,6 +9,7 @@ from .user_exceptions import (
     UserException,
     UserAlreadyExistsException,
     InvalidCredentialsException,
+    UserNotFoundException
 )
 
 from .database_exceptions import (
@@ -20,6 +21,7 @@ __all__ = [
     "UserException",
     "UserAlreadyExistsException",
     "InvalidCredentialsException",
+    "UserNotFoundException",
     "DatabaseException",
     "DatabaseOperationException",
 ]
