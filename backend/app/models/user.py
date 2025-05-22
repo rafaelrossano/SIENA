@@ -30,5 +30,10 @@ class User(Base):
     
     is_active: Mapped[bool] = mapped_column(
         default=True, 
-        comment="Indicates if the user is active"
+        comment="Flag indicating if the user is active"
+    )
+    
+    id_admin: Mapped[bool] = mapped_column(
+        default=False, 
+        comment="Flag indicating if the user is an admin"
     )

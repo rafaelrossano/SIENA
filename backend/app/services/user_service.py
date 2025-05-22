@@ -39,3 +39,23 @@ class UserService:
         except Exception as e:
             db.rollback()
             raise DatabaseOperationException(f"Error creating user: {str(e)}")
+
+
+    @staticmethod
+    def authenticate_user(db: Session, username: str, password: str) -> Optional[User]:
+        """
+        Authenticate a user by verifying the username and password.
+        
+        Args:
+            db: Database session
+            username: Username of the user
+            password: Password of the user
+            
+        Returns:
+            Authenticated user object if successful, None otherwise
+        """
+        user = UserRepository.get_by_username(db, username=username)
+        if not user or not verify_password(password, user.hashed_password):
+            raise InvalidCredentialsException()
+        
+        return user
