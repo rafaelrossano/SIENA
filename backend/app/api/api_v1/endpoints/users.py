@@ -52,9 +52,10 @@ def create_user(
 @router.put(
     "/{user_id}", response_model=UserPublic)
 def update_user(
+    user_id: int,
     user_data: UserSchema,
     session: Session = Depends(get_db),
-    current_user: UserPublic = Depends(get_current_user)
+    current_user = Depends(get_current_user),
 ) -> Any:
     """
     Update an existing user account.
@@ -73,6 +74,12 @@ def update_user(
     - **404 Not Found**: User not found
     - **500 Internal Server Error**: Database operation failed
     """
+    if current_user.id != user_id:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="You do not have permission to update this user."
+        )
+    
     try:
         user = UserService.update_user(db=session, user_id=user_id, user_data=user_data)
         return user
